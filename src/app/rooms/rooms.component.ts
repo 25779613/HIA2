@@ -4,6 +4,7 @@ import { Observable, Subject, Subscription, catchError, map, of } from 'rxjs';
 import { HeaderComponent } from '../header/header.component';
 import { RoomServiceService } from './services/room-service.service';
 import { HttpEventType } from '@angular/common/http';
+import { ConfigService } from '../services/config.service';
 
 
 @Component({
@@ -67,7 +68,10 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked, 
 
   // calling service - private roomservice: RoomServiceService
   //@SkipSelf() resolution modifier that service will not exists at this level in the dependancy resolution tree
-  constructor(private roomservice: RoomServiceService) { }
+  constructor(private roomservice: RoomServiceService, private configService: ConfigService) {
+
+
+  }
 
 
 

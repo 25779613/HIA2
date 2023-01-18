@@ -1,0 +1,68 @@
+{{ room | json }}
+<!-- to submit the data in form use (ngSubmit)= "function()" -->
+<!-- email is also validator in input -->
+<div *ngIf="successMessage !== ''" class="alert alert-success">
+    {{ successMessage }}
+</div>
+<!-- template variable #name gives an instance of a variable  -->
+<!-- to reset form after data is added pass the form as parameters in AddRoom function -->
+<form #roomsForm="ngForm" (ngSubmit)="AddRoom(roomsForm)">
+    <div class="form-group">
+        <div class="form-group">
+            <input #roomType="ngModel" required="" class="form-control" type="text" placeholder="Room Type" name="roomType" [(ngModel)]="room.roomType" />
+            <!-- to bind data to ts use [(ngModel)]="objectName.objectAttribute" as above and is two way data binding-->
+        </div>
+        <div class="alert alert-warning" *ngIf="roomType.dirty && roomType.errors?.['required']">
+            {{ roomType.errors | json }}
+        </div>
+        <div class="form-group">
+            <input #roomAmenities="ngModel" required="" minlength="5" maxlength="20" class="form-control" type="text" placeholder="Room Amenities" name="amenities" [(ngModel)]="room.amenities" />
+        </div>
+        <!-- to display errors -->
+        <!-- *ngif to check if the room amenities error has a specific error -->
+        <div class="alert alert-warning" *ngIf="roomAmenities.dirty && roomAmenities.errors?.['minlength']">
+            {{ roomAmenities.errors | json }}
+        </div>
+        <!-- pattern is for a regex expression eg id number  -->
+        <div class="form-group">
+            <input required="" class="form-control" type="number" placeholder="Room Price per night" name="price" [(ngModel)]="room.price" pattern="^[1-9]\d{0,7}(?:\.\d{1,4})?$" />
+        </div>
+        <div class="form-group">
+            <input required="" class="form-control" type="text" placeholder="Room Photos (provide link)" name="photos" [(ngModel)]="room.image" />
+        </div>
+        <div class="form-group">
+            <input #roomCheckinTime="ngModel" required="" class="form-control" type="datetime" placeholder="Room Check-in Time" name="checkinTime" [(ngModel)]="room.checkinTime" />
+        </div>
+        <div class="alert alert-warning" *ngIf="roomCheckinTime.dirty && roomCheckinTime.errors?.['required']">
+            {{ roomCheckinTime.errors | json }}
+        </div>
+        <div class="form-group">
+            <input #roomCheckoutTime="ngModel" required="" class="form-control" type="datetime" placeholder="Room Check-out Time" name="checkoutTime" [(ngModel)]="room.checkoutTime" />
+        </div>
+        <div class="alert alert-warning" *ngIf="roomCheckoutTime.dirty && roomCheckoutTime.errors?.['required']">
+            {{ roomCheckoutTime.errors | json }}
+        </div>
+        <div class="form-group">
+            <input #roomRating="ngModel" required="" min="1" max="5" class="form-control" type="number" placeholder="Room rating" name="rating" [(ngModel)]="room.rating" />
+        </div>
+        <div class="alert alert-warning" *ngIf="roomRating.dirty && roomRating.errors?.['required']">
+            {{ roomRating.errors | json }}
+        </div>
+        <div>
+            <button [disabled]="roomsForm.invalid" class="btn btn-primary" type="submit">
+        Submit
+      </button>
+        </div>
+    </div>
+</form>
+
+<!-- checks if no data has been input since load -->
+{{ roomsForm.pristine | json }}<br />
+<!-- checks if data has been input t -->
+{{ roomsForm.dirty | json }}<br />
+<!-- checks if the form is valid -->
+{{ roomsForm.valid | json }} <br />
+<!-- checks if any values are not valid -->
+{{ roomsForm.invalid | json }}<br />
+<!--  -->
+{{ roomsForm.value | json }}<br />

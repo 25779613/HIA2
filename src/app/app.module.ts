@@ -7,8 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContainerComponent } from './container/container.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { HeaderComponent } from './header/header.component';
-import { RoomsComponent } from './rooms/rooms.component';
-import { RoomsListComponent } from './rooms/rooms-list/rooms-list.component';
 import { InitService } from './init.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RequestInterceptor } from './request.interceptor';
@@ -21,7 +19,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { RoomsBookingComponent } from './rooms/rooms-booking/rooms-booking.component';
+import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { HoverDirective } from './hover.directive';
+import { EmailvalidatorDirective } from './emailvalidator/emailvalidator.directive';
+import { RoomsModule } from './rooms/rooms.module';
+import { HeaderModule } from './header/header.module';
+import { RouteConfigToken } from './services/routeConfig.service';
 
 // to load a config before the program intializes
 // to register the function, add under providers in this class
@@ -33,15 +37,16 @@ function initFactory(initService: InitService) {
     AppComponent,
     ContainerComponent,
     EmployeeComponent,
-    HeaderComponent,
-    RoomsComponent,
-    RoomsListComponent,
     AppNavComponent,
     NotfoundComponent,
-    RoomsBookingComponent
+    LoginComponent,
+    HoverDirective,
+    EmailvalidatorDirective,
+
   ],
   imports: [
     BrowserModule,
+    //RoomsModule, // removed from imports due lazy loading
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -50,13 +55,22 @@ function initFactory(initService: InitService) {
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    FormsModule,
+    HeaderModule,
   ],
   providers: [
     {
+      //App config
       provide: APP_SERVICE_CONFIG,
       useValue: APP_CONFIG,
     },
+    {
+      //route config under serives
+      provide: RouteConfigToken,
+      useValue: { title: 'Home' },
+    },
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestInterceptor,
