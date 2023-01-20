@@ -1,4 +1,4 @@
-{{ room | json }}
+<!-- {{ room | json }} -->
 <!-- to submit the data in form use (ngSubmit)= "function()" -->
 <!-- email is also validator in input -->
 <div *ngIf="successMessage !== ''" class="alert alert-success">
@@ -9,7 +9,8 @@
 <form #roomsForm="ngForm" (ngSubmit)="AddRoom(roomsForm)">
     <div class="form-group">
         <div class="form-group">
-            <input #roomType="ngModel" required="" class="form-control" type="text" placeholder="Room Type" name="roomType" [(ngModel)]="room.roomType" />
+            <!-- [ngModelOptions]="{updateOn:'blur'}" to listen to control changes -->
+            <input #roomType="ngModel" required="" class="form-control" type="text" placeholder="Room Type" name="roomType" [(ngModel)]="room.roomType" [ngModelOptions]="{ updateOn: 'blur' }" />
             <!-- to bind data to ts use [(ngModel)]="objectName.objectAttribute" as above and is two way data binding-->
         </div>
         <div class="alert alert-warning" *ngIf="roomType.dirty && roomType.errors?.['required']">
@@ -57,12 +58,12 @@
 </form>
 
 <!-- checks if no data has been input since load -->
-{{ roomsForm.pristine | json }}<br />
+<!-- {{ roomsForm.pristine | json }}<br /> -->
 <!-- checks if data has been input t -->
-{{ roomsForm.dirty | json }}<br />
+<!-- {{ roomsForm.dirty | json }}<br /> -->
 <!-- checks if the form is valid -->
-{{ roomsForm.valid | json }} <br />
+<!-- {{ roomsForm.valid | json }} <br /> -->
 <!-- checks if any values are not valid -->
-{{ roomsForm.invalid | json }}<br />
-<!--  -->
-{{ roomsForm.value | json }}<br />
+<!-- {{ roomsForm.invalid | json }}<br /> -->
+<!-- displays the value in json format -->
+<!-- {{ roomsForm.value | json }}<br /> -->

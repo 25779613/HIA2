@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../services/config.service';
 import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
+import { BookingService } from './booking.service';
+import { exhaustMap, mergeMap, switchMap } from 'rxjs';
+import { CustomValidator } from './validators/custom-validator';
 
 @Component({
   selector: 'hinv-booking',
@@ -17,21 +20,27 @@ export class BookingComponent implements OnInit {
   }
 
   //inject formbuilder
-  constructor(private configService: ConfigService, private fb: FormBuilder) { }
+  constructor(private configService: ConfigService, private fb: FormBuilder,
+    private bookingService: BookingService) { }
 
   ngOnInit(): void {
     this.bookingForm = this.fb.group({
       //{ value: '2' ,disabled : true} adds a default value that cant be edited
       // { validators:[Validators.required] } to add validation
       roomId: new FormControl({ value: '2', disabled: true }, { validators: [Validators.required] }), //either use new FormControl('') | [''] (short version)
-      guestEmail: ['', [Validators.required, Validators.email]],
+      guestEmail: ['', {
+        updateOn: 'blur' //blur is an event that fires when you move out of the control
+        , validators: [Validators.required, Validators.email]
+      }],
       checkinDate: [''],
       checkoutDate: [''],
       bookingStatus: [''],
       bookingAmount: [''],
       bookingDate: [''],
-      mobileNumber: [''],
-      guestName: ['', [Validators.required, Validators.minLength(5)]],
+      mobileNumber: ['', { updateOn: 'blur' }],
+      guestName: ['',
+        [Validators.required, Validators.minLength(5)
+          , CustomValidator.validateName, CustomValidator.validateSpecialChar("*")]],
       //form within a form
       address: this.fb.group({
         addressLineOne: ['', [Validators.required,]],
@@ -44,9 +53,32 @@ export class BookingComponent implements OnInit {
       // guest consists of a form array ,that contains all the form group of guests names and ages
       guests: this.fb.array([this.addGuestControl()]),
       tnc: new FormControl(false, { validators: [Validators.requiredTrue] })
+      // will updateOn blur (move out of control) globally(for each control) //options -blur-submit-change\
+    }, { updateOn: "blur", validators: [CustomValidator.validateDate] });
 
-    });
+    this.getBookingData();
+    // // get data in real time, called for each key press
+    // this.bookingForm.valueChanges.subscribe((data) => { console.log(data); });
+
+    //RxJs mapping Opperator
+    // this.bookingForm.valueChanges
+    //   .subscribe((data) => {
+    //     this.bookingService.bookRoom(data)
+    //       .subscribe((data) => { })
+    //   });
+
+
+    //mergeMap - doesnt care of sequence, will subscribe(post) to the stream as soon as data available
+    // this.bookingForm.valueChanges.pipe(mergeMap((data) => this.bookingService.bookRoom(data))).subscribe((data) => { console.log(data) });
+
+    //switchMap- will cancel existing requests(post) if it recieves new (latest data),previous stream will be cancelled
+    // this.bookingForm.valueChanges.pipe(switchMap((data) => this.bookingService.bookRoom(data))).subscribe((data) => { console.log(data) });
+
+    //exhaustMap - cares about sequence, if previous request is not completed will not subscribe changes
+    // this.bookingForm.valueChanges.pipe(exhaustMap((data) => this.bookingService.bookRoom(data))).subscribe((data) => { console.log(data) });
+
   }
+
 
   // reusable code 
   addGuestControl() {
@@ -81,6 +113,11 @@ export class BookingComponent implements OnInit {
 
   addBooking() {
     console.log(this.bookingForm.getRawValue());
+    // //post to api
+    // this.bookingService.bookRoom(this.bookingForm.getRawValue()).subscribe((data) => {
+    //   console.log(data)});
+
+
     // reset the form and give default values
     this.bookingForm.reset({
       roomId: "2 ",
@@ -105,6 +142,33 @@ export class BookingComponent implements OnInit {
       guests: [],
       tnc: false,
     })
+  }
+
+  // recieving data from api, patchValue allows to skip values of control, setValue requires all values of controls
+  getBookingData() {
+    this.bookingForm.patchValue({
+      roomId: "2 ",
+      guestEmail: "test@gmail.com",
+      checkinDate: new Date('10-Feb-2010'),
+      checkoutDate: " ",
+      bookingStatus: " ",
+      bookingAmount: " ",
+      bookingDate: " ",
+      mobileNumber: " ",
+      guestName: " ",
+      //form within a form
+      address: {
+        addressLineOne: " ",
+        addressLineTwo: " ",
+        city: " ",
+        state: " ",
+        country: " ",
+        zipCode: " ",
+      },
+      // guest consists of a form array ,that contains all the form group of guests names and ages
+      guests: [],
+      tnc: false,
+    });
   }
 
 

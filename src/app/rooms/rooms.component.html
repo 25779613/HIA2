@@ -1,23 +1,26 @@
-<hinv-header></hinv-header>
+<!-- <hinv-header></hinv-header> -->
 
 <!-- {{ rooms$ | async | json }} -->
 <!-- <h1>Welcome to {{ hotelName }}</h1> -->
 <!-- event listening data binding -->
-<div [hidden]="hideRooms">
+
+<!-- <div [hidden]="hideRooms">
     Number of Rooms
     <div [ngStyle]="{ color: rooms.availableRooms ? 'green' : 'red' }" [innerText]="numberOfRooms"></div>
-</div>
-<div>
-    <!-- if theres no rooms availables display the string this is the null collision operator -->
-    {{ rooms?.availableRooms ?? "no Rooms available" }}
-</div>
+</div> -->
+
+<!-- <div> -->
+<!-- if theres no rooms availables display the string this is the null collision operator -->
+
+<!-- {{ rooms?.availableRooms ?? "no Rooms available" }} -->
+<!-- </div> -->
 
 <!-- Json pipes -->
 <!-- {{ roomsList | json }} -->
 
-<div *ngIf="selectedRoom">
+<!-- <div *ngIf="selectedRoom">
     {{ selectedRoom | json }}
-</div>
+</div> -->
 
 <!-- if theres no rooms available hide the div this is the optional channeling -->
 <!-- <div *ngIf="rooms.availableRooms > 0"> -->
@@ -31,17 +34,17 @@
     <hinv-rooms-list [rooms]="roomss" [title]="title" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
 </div>
 
-<button (click)="toggle()">toggle</button>
+<!-- <button (click)="toggle()">toggle</button> -->
 <div>
-    <button routerLink="add">Add room</button>
-    <button (click)="updateRoom()">Edit room</button>
-    <button (click)="deleteRoom()">Delete room</button>
+    <button class="btn btn-success" routerLink="add">Add room</button>
+    <!-- <button (click)="updateRoom()">Edit room</button>
+    <button (click)="deleteRoom()">Delete room</button> -->
 </div>
 
-<div>
+<!-- <div>
     <h1>{{ totalBytes }} Bytes Loaded</h1>
     <h1>No of rooms is {{ roomsCount$ | async }}</h1>
-</div>
+</div> -->
 
 <br />
 <br />
