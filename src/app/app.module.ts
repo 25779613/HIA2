@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +27,7 @@ import { RoomsModule } from './rooms/rooms.module';
 import { HeaderModule } from './header/header.module';
 import { RouteConfigToken } from './services/routeConfig.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { GlobalErrorHandler } from './errorHandler.service';
 
 // to load a config before the program intializes
 // to register the function, add under providers in this class
@@ -83,7 +84,8 @@ function initFactory(initService: InitService) {
       useFactory: initFactory,//
       deps: [InitService],
       multi: true,
-    }
+    },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ],
   bootstrap: [AppComponent]
 })

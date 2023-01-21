@@ -28,10 +28,16 @@
 <!-- <hinv-rooms-list [rooms]="roomsList" [title]="title" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
 </div> -->
 
+<!-- filter by price -->
+{{ priceFilter | json }}
+<div>
+    <input type="number" class="form-control" placeholder="price" [formControl]="priceFilter" />
+</div>
+
 <!-- to use ngonDestroy life cycle hook -->
 <!-- asyn way to use the data -->
 <div *ngIf="rooms$ | async as roomss">
-    <hinv-rooms-list [rooms]="roomss" [title]="title" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
+    <hinv-rooms-list [price]="priceFilter.value" [rooms]="roomss" [title]="title" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
 </div>
 
 <!-- <button (click)="toggle()">toggle</button> -->

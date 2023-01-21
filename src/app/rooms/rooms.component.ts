@@ -5,6 +5,7 @@ import { HeaderComponent } from '../header/header.component';
 import { RoomServiceService } from './services/room-service.service';
 import { HttpEventType } from '@angular/common/http';
 import { ConfigService } from '../services/config.service';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -16,7 +17,6 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked, 
 
   hotelName: string = "Hilton Hotel"; // interpolation binding syntax , to use in html {{hotelName}}
   numberOfRooms: number = 10; // property binding syntax , to use in html  <div [innerText]="numberOfRooms"></div>
-
   selectedRoom!: roomsList; // not sure why theres an !sign here, error is not intialized if not used
 
   rooms: Rooms = {
@@ -124,12 +124,19 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked, 
     })
   );
 
+
+  //feature to filter by price
+  priceFilter = new FormControl(0);
+
   // map operator RxJs
   roomsCount$ = this.roomservice.getRooms$.pipe(
     map((rooms) => rooms.length)
   );
 
+
+
   ngOnInit(): void {
+
 
     //completes a event from an api
     this.roomservice.getPhotos().subscribe((event) => {

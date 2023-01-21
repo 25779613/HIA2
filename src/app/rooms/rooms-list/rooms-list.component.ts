@@ -5,13 +5,14 @@ import { roomsList } from '../rooms';
   selector: 'hinv-rooms-list',
   templateUrl: './rooms-list.component.html',
   styleUrls: ['./rooms-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush // updates the existing object only on push life cycle hook, needs to be immutable 
+  //changeDetection: ChangeDetectionStrategy.OnPush // updates the existing object only on push life cycle hook, needs to be immutable 
 })
 export class RoomsListComponent implements OnInit, OnChanges {
 
   //@Input to recieve data from parent component
-  @Input() rooms: roomsList[] | null = []; // property global variable on the html tag to transfer data
+  @Input() rooms: roomsList[] = []//| null = []; // property global variable on the html tag to transfer data
   @Input() title: string = "";
+  @Input() price: any = 0;
   @Output() selectedRoom: EventEmitter<roomsList> = new EventEmitter<roomsList>(); // to send an object to parent
   constructor() { }
 

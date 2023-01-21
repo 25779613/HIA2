@@ -20,7 +20,8 @@ const routes: Routes = [
     path: 'booking/:roomId',
     loadChildren: () => import('./booking/booking.module').then(m => m.BookingModule),
     // canActivate: [LoginGuard]
-  },// setting up default path check app-nav html
+  },
+  { path: 'comments', loadChildren: () => import('./comment/comment.module').then(m => m.CommentModule) },// setting up default path check app-nav html
   { path: '**', component: NotfoundComponent },// wildcard route incase url doesnt exist
 ];
 
