@@ -12,7 +12,8 @@ const routes: Routes = [
     canActivateChild: [RoomGuard],
     children: [
       { path: 'add', component: RoomsAddTemplateDrivenComponent },
-      { path: ':roomid', component: RoomsBookingComponent }]
+      //{ path: ':roomid', component: RoomsBookingComponent },
+    ]
   },//remove rooms/ because its alread in rooms
 
   //{ path: 'rooms/add', component: RoomsAddTemplateDrivenComponent },// template form

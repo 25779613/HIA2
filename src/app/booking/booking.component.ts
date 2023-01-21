@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@ang
 import { BookingService } from './booking.service';
 import { exhaustMap, mergeMap, switchMap } from 'rxjs';
 import { CustomValidator } from './validators/custom-validator';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'hinv-booking',
@@ -20,14 +21,17 @@ export class BookingComponent implements OnInit {
   }
 
   //inject formbuilder
+  //Activated route - provides the id generated from the dynamic route
   constructor(private configService: ConfigService, private fb: FormBuilder,
-    private bookingService: BookingService) { }
+    private bookingService: BookingService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    //take room id from route, from param gets the room id
+    const roomId = this.route.snapshot.paramMap.get('roomId');
     this.bookingForm = this.fb.group({
       //{ value: '2' ,disabled : true} adds a default value that cant be edited
       // { validators:[Validators.required] } to add validation
-      roomId: new FormControl({ value: '2', disabled: true }, { validators: [Validators.required] }), //either use new FormControl('') | [''] (short version)
+      roomId: new FormControl({ value: roomId, disabled: true }, { validators: [Validators.required] }), //either use new FormControl('') | [''] (short version)
       guestEmail: ['', {
         updateOn: 'blur' //blur is an event that fires when you move out of the control
         , validators: [Validators.required, Validators.email]
@@ -147,7 +151,7 @@ export class BookingComponent implements OnInit {
   // recieving data from api, patchValue allows to skip values of control, setValue requires all values of controls
   getBookingData() {
     this.bookingForm.patchValue({
-      roomId: "2 ",
+      //roomId: "2 ",
       guestEmail: "test@gmail.com",
       checkinDate: new Date('10-Feb-2010'),
       checkoutDate: " ",

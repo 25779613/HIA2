@@ -26,6 +26,7 @@ import { EmailvalidatorDirective } from './emailvalidator/emailvalidator.directi
 import { RoomsModule } from './rooms/rooms.module';
 import { HeaderModule } from './header/header.module';
 import { RouteConfigToken } from './services/routeConfig.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // to load a config before the program intializes
 // to register the function, add under providers in this class
@@ -58,6 +59,7 @@ function initFactory(initService: InitService) {
     MatListModule,
     FormsModule,
     HeaderModule,
+    MatSnackBarModule,
   ],
   providers: [
     {

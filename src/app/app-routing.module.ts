@@ -17,7 +17,7 @@ const routes: Routes = [
   }, // lazy loading
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
-    path: 'booking',
+    path: 'booking/:roomId',
     loadChildren: () => import('./booking/booking.module').then(m => m.BookingModule),
     // canActivate: [LoginGuard]
   },// setting up default path check app-nav html
